@@ -1,0 +1,19 @@
+{
+  "bin": {
+    "md5state": "./bin/md5state.mjs"
+  },
+  "name": "md5state",
+  "version": "1.0.0",
+  "description": "Like md5sum, but also records (and later checks for) file nonexistence.",
+  "main": "index.js",
+  "repository": "git@github.com:/rulatir/md5state.git",
+  "author": "Szczepan Hołyszewski <rulatir@wp.pl>",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "@types/crypto-js": "^4.0.2",
+    "crypto-js": "^4.0.0",
+    "get-stdin": "^9.0.0"
+  },
+  "type": "module"
+}
