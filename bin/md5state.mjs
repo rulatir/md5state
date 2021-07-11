@@ -49,7 +49,18 @@ async function main(argv)
 {
     const settings = parseCommandLine(argv.slice());
     const files = await loadFileList(settings);
+    validate(settings, files);
     console.log((await hashFiles(files, settings))+'\n');
+}
+
+/**
+ *
+ * @param {object} settings
+ * @param {string[]} files
+ */
+function validate(settings, files)
+{
+    //nothing to do for now, validate algorithm name once we support specifying it
 }
 
 /**
@@ -122,17 +133,18 @@ async function loadFileList(settings)
 {
     switch(settings.filelistSource) {
         case "argv": return settings.filelist;
-        case "file": return parseFileList(await fs.readFile(settings.filelistSource, "utf8"));
-        case "stdin": return parseFileList((await getStdin.buffer()).toString("utf8"));
+        case "file": return parseFileList(settings, await fs.readFile(settings.filelistSource, "utf8"));
+        case "stdin": return parseFileList(settings, (await getStdin.buffer()).toString("utf8"));
     }
     return [];
 }
 
 /**
+ * @param {object} settings
  * @param {string} contents
  * @return {string[]}
  */
-function parseFileList(contents)
+function parseFileList(settings, contents)
 {
     return contents.split("\n").filter(_ => (''+_).length > 0);
 }
@@ -183,9 +195,12 @@ function parseCommandLine(argv) {
                 if ('-' === arg.charAt(0)) {
                     throw new UsageError();
                 }
-                argv.unshift(arg)
-                return settings;
+                argv.unshift(arg);
+                break;
         }
+    }
+    if ("argv" === settings.filelistSource) {
+        settings.filelist = argv;
     }
     return settings;
 }
