@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import {promises as fs} from "fs";
 import getStdin from "get-stdin";
 import md5 from "crypto-js/md5.js";
@@ -133,7 +134,7 @@ async function loadFileList(settings)
 {
     switch(settings.filelistSource) {
         case "argv": return settings.filelist;
-        case "file": return parseFileList(settings, await fs.readFile(settings.filelistSource, "utf8"));
+        case "file": return parseFileList(settings, await fs.readFile(settings.filelist, "utf8"));
         case "stdin": return parseFileList(settings, (await getStdin.buffer()).toString("utf8"));
     }
     return [];
