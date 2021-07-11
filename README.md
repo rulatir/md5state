@@ -1,5 +1,5 @@
 # md5state
-Like md5sum, but also records (and later checks for) file nonexistence.
+Like md5sum, but also optionally records (and eventually will check for) file nonexistence.
 
 ```
 Usage:
