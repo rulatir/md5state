@@ -1,8 +1,7 @@
 #!/usr/bin/env node
-import {promises as fs} from "fs";
+import {promises as fs, createReadStream} from "fs";
+import {createHash} from "crypto";
 import getStdin from "get-stdin";
-import md5 from "crypto-js/md5.js";
-import hex from "crypto-js/enc-hex.js";
 
 class UsageError extends Error
 {
@@ -91,7 +90,15 @@ async function hashFile(path, settings)
 {
     const result = { path };
     try {
-        result.hash = hex.stringify(md5(await fs.readFile(path,"utf8")));
+        const hash = createHash('md5');
+        const stream = createReadStream(path);
+        
+        // Process file in chunks via stream
+        for await (const chunk of stream) {
+            hash.update(chunk);
+        }
+        
+        result.hash = hash.digest('hex');
     }
     catch (e) {
         if (e instanceof Error) {
