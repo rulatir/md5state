@@ -11,8 +11,6 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
-    "@types/crypto-js": "^4.0.2",
-    "crypto-js": "^4.0.0",
     "get-stdin": "^9.0.0"
   },
   "type": "module"
